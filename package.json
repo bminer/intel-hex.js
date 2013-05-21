@@ -1,0 +1,23 @@
+{
+	"name": "intel-hex",
+	"version": "0.1.0",
+	"description": "A JavaScript parser/writer for Intel HEX file format.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bminer/intel-hex.js.git"
+	},
+	"keywords": [
+		"intel",
+		"hex",
+		"parser",
+		"reader",
+		"writer"
+	],
+	"author": "Blake Miner <miner.blake@gmail.com>",
+	"license": "MIT",
+	"readmeFilename": "README.md"
+}
