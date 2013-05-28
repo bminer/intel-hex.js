@@ -1,6 +1,6 @@
 {
 	"name": "intel-hex",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "A JavaScript parser/writer for Intel HEX file format.",
 	"main": "index.js",
 	"scripts": {

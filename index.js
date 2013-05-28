@@ -62,7 +62,7 @@ exports.parse = function parseIntelHex(data, bufferSize) {
 			lowAddress + recordType) & 0xFF;
 		for(var i = 0; i < dataLength; i++)
 			calcChecksum = (calcChecksum + dataFieldBuf[i]) & 0xFF;
-		calcChecksum = 0x100 - calcChecksum;
+		calcChecksum = (0x100 - calcChecksum) & 0xFF;
 		if(checksum != calcChecksum)
 			throw new Error("Invalid checksum on line " + lineNum +
 				": got " + checksum + ", but expected " + calcChecksum);
