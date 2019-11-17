@@ -25,7 +25,7 @@ exports.parse = function parseIntelHex(data, bufferSize) {
 	if(data instanceof Buffer)
 		data = data.toString("ascii");
 	//Initialization
-	var buf = new Buffer(bufferSize || 8192),
+	var buf = Buffer.alloc(bufferSize || 8192),
 		bufLength = 0, //Length of data in the buffer
 		highAddress = 0, //upper address
 		startSegmentAddress = null,
@@ -52,7 +52,7 @@ exports.parse = function parseIntelHex(data, bufferSize) {
 		pos += 2;
 		//Data field (hex-encoded string)
 		var dataField = data.substr(pos, dataLength * 2),
-			dataFieldBuf = new Buffer(dataField, "hex");
+			dataFieldBuf = Buffer.from(dataField, "hex");
 		pos += dataLength * 2;
 		//Checksum
 		var checksum = parseInt(data.substr(pos, 2), 16);
@@ -74,7 +74,7 @@ exports.parse = function parseIntelHex(data, bufferSize) {
 				//Expand buf, if necessary
 				if(absoluteAddress + dataLength >= buf.length)
 				{
-					var tmp = new Buffer((absoluteAddress + dataLength) * 2);
+					var tmp = Buffer.alloc((absoluteAddress + dataLength) * 2);
 					buf.copy(tmp, 0, 0, bufLength);
 					buf = tmp;
 				}
