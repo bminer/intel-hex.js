@@ -8,10 +8,11 @@ A parser/writer for Intel HEX file format.
 require("intel_hex").parse(data);
 ```
 
-The `parse` function takes 2 arguments:
+The `parse` function takes 3 arguments:
 
 - `data` - Intel Hex file (string in ASCII format or Buffer Object)
 - `bufferSize` - the size of the Buffer containing the data (optional)
+- `addressOffset` - starting address offset (optional)
 
 and returns an Object with the following properties:
 
