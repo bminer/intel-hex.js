@@ -11,8 +11,8 @@ require("intel_hex").parse(data);
 The `parse` function takes 3 arguments:
 
 - `data` - Intel Hex file (string in ASCII format or Buffer Object)
-- `bufferSize` - the size of the Buffer containing the data (optional)
-- `addressOffset` - starting address offset (optional)
+- `bufferSize` - the size of the Buffer containing the data (optional), the data exceeding the buffer size will be discarded
+- `addressOffset` - starting address offset (optional), the data before the starting address will be discarded
 
 and returns an Object with the following properties:
 
