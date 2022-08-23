@@ -9,17 +9,21 @@ const DATA = 0,
 const EMPTY_VALUE = 0xFF;
 
 /* intel_hex.parse(data)
-	`data` - Intel Hex file (string in ASCII format or Buffer Object)
-	`bufferSize` - the size of the Buffer containing the data (optional)
-	`addressOffset` - starting address offset (optional)
+	- `data` - Intel Hex file (string in ASCII format or Buffer Object)
+	- `bufferSize` - the size of the Buffer containing the data (optional)
+	  The data exceeding the buffer size will be discarded
+	- `addressOffset` - starting address offset (optional)
+	  The data before the starting address will be discarded
 
 	returns an Object with the following properties:
-		- data - data as a Buffer Object, padded with 0xFF
-			where data is empty.
-		- startSegmentAddress - the address provided by the last
-			start segment address record; null, if not given
-		- startLinearAddress - the address provided by the last
-			start linear address record; null, if not given
+
+	- `data` - data as a Buffer Object, **padded with 0xFF
+	  where data is empty**.
+	- `startSegmentAddress` - the address provided by the last
+	  start segment address record; null, if not given
+	- `startLinearAddress` - the address provided by the last
+	  start linear address record; null, if not given
+
 	Special thanks to: http://en.wikipedia.org/wiki/Intel_HEX
 */
 exports.parse = function parseIntelHex(data, bufferSize, addressOffset) {
@@ -31,11 +35,9 @@ exports.parse = function parseIntelHex(data, bufferSize, addressOffset) {
 		highAddress = 0, //upper address
 		startSegmentAddress = null,
 		startLinearAddress = null,
-		addressOffset = 0 || addressOffset,
+		addressOffset = addressOffset || 0,
 		lineNum = 0, //Line number in the Intel Hex string
 		pos = 0; //Current position in the Intel Hex string
-
-	buf.fill(EMPTY_VALUE);
 
 	const SMALLEST_LINE = 11;
 	while(pos + SMALLEST_LINE <= data.length)
@@ -88,7 +90,15 @@ exports.parse = function parseIntelHex(data, bufferSize, addressOffset) {
 					buf.fill(EMPTY_VALUE, bufLength, absoluteAddress);
 				//Write the dataFieldBuf to buf
 				dataFieldBuf.copy(buf, absoluteAddress);
-				bufLength = bufferSize || Math.max(bufLength, absoluteAddress + dataLength);
+				bufLength = Math.max(bufLength, absoluteAddress + dataLength);
+				// Safely abort if the buffer length is already sufficient
+				if(bufLength >= bufferSize) {
+					return {
+						"data": buf.slice(0, bufLength),
+						"startSegmentAddress": startSegmentAddress,
+						"startLinearAddress": startLinearAddress
+					};
+				}
 				break;
 			case END_OF_FILE:
 				if(dataLength != 0)
