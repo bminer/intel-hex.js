@@ -1,10 +1,12 @@
 //Intel Hex record types
-const DATA = 0,
+export enum RecordType {
+	DATA = 0,
 	END_OF_FILE = 1,
 	EXT_SEGMENT_ADDR = 2,
 	START_SEGMENT_ADDR = 3,
 	EXT_LINEAR_ADDR = 4,
-	START_LINEAR_ADDR = 5;
+	START_LINEAR_ADDR = 5
+}
 
 const EMPTY_VALUE = 0xFF;
 
@@ -21,15 +23,23 @@ const EMPTY_VALUE = 0xFF;
 			start linear address record; null, if not given
 	Special thanks to: http://en.wikipedia.org/wiki/Intel_HEX
 */
-exports.parse = function parseIntelHex(data, bufferSize) {
-	if(data instanceof Buffer)
+
+type IntelHex = {
+	data: Buffer,
+	startSegmentAddress: number | null,
+	startLinearAddress: number | null
+}
+
+export function parse(data: String | Buffer, bufferSize: number): IntelHex {
+	if(data instanceof Buffer){
 		data = data.toString("ascii");
+	}
 	//Initialization
 	var buf = Buffer.alloc(bufferSize || 8192),
 		bufLength = 0, //Length of data in the buffer
 		highAddress = 0, //upper address
-		startSegmentAddress = null,
-		startLinearAddress = null,
+		startSegmentAddress: number | null = null,
+		startLinearAddress: number | null = null,
 		lineNum = 0, //Line number in the Intel Hex string
 		pos = 0; //Current position in the Intel Hex string
 	const SMALLEST_LINE = 11;
@@ -69,7 +79,7 @@ exports.parse = function parseIntelHex(data, bufferSize) {
 		//Parse the record based on its recordType
 		switch(recordType)
 		{
-			case DATA:
+			case RecordType.DATA:
 				var absoluteAddress = highAddress + lowAddress;
 				//Expand buf, if necessary
 				if(absoluteAddress + dataLength >= buf.length)
@@ -85,7 +95,7 @@ exports.parse = function parseIntelHex(data, bufferSize) {
 				dataFieldBuf.copy(buf, absoluteAddress);
 				bufLength = Math.max(bufLength, absoluteAddress + dataLength);
 				break;
-			case END_OF_FILE:
+			case RecordType.END_OF_FILE:
 				if(dataLength != 0)
 					throw new Error("Invalid EOF record on line " +
 						lineNum + ".");
@@ -95,25 +105,25 @@ exports.parse = function parseIntelHex(data, bufferSize) {
 					"startLinearAddress": startLinearAddress
 				};
 				break;
-			case EXT_SEGMENT_ADDR:
+			case RecordType.EXT_SEGMENT_ADDR:
 				if(dataLength != 2 || lowAddress != 0)
 					throw new Error("Invalid extended segment address record on line " +
 						lineNum + ".");
 				highAddress = parseInt(dataField, 16) << 4;
 				break;
-			case START_SEGMENT_ADDR:
+			case RecordType.START_SEGMENT_ADDR:
 				if(dataLength != 4 || lowAddress != 0)
 					throw new Error("Invalid start segment address record on line " +
 						lineNum + ".");
 				startSegmentAddress = parseInt(dataField, 16);
 				break;
-			case EXT_LINEAR_ADDR:
+			case RecordType.EXT_LINEAR_ADDR:
 				if(dataLength != 2 || lowAddress != 0)
 					throw new Error("Invalid extended linear address record on line " +
 						lineNum + ".");
 				highAddress = parseInt(dataField, 16) << 16;
 				break;
-			case START_LINEAR_ADDR:
+			case RecordType.START_LINEAR_ADDR:
 				if(dataLength != 4 || lowAddress != 0)
 					throw new Error("Invalid start linear address record on line " +
 						lineNum + ".");

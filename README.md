@@ -1,6 +1,7 @@
 # intel-hex.js
 
 A parser/writer for Intel HEX file format.
+> This fork updates the package to use ES6 modules & TypeScript definitions.
 
 ## Usage
 
