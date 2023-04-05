@@ -2,9 +2,12 @@
 	"name": "intel-hex.ts",
 	"version": "0.1.2",
 	"description": "A TypeScript parser/writer for Intel HEX file format.",
-	"main": "index.ts",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsc",
+		"prepare": "npm run build"
 	},
 	"repository": {
 		"type": "git",
@@ -17,10 +20,12 @@
 		"reader",
 		"writer"
 	],
+	"files": ["lib/**/*"],
 	"author": "Blake Miner <miner.blake@gmail.com>",
 	"license": "MIT",
 	"readmeFilename": "README.md",
 	"devDependencies": {
-		"@types/node": "^18.15.11"
+		"@types/node": "^18.15.11",
+		"typescript": "^5.0.3"
 	}
 }
