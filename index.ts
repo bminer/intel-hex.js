@@ -30,7 +30,7 @@ type IntelHex = {
 	startLinearAddress: number | null
 }
 
-export function parse(data: String | Buffer, bufferSize: number): IntelHex {
+export function parse(data: String | Buffer, bufferSize?: number): IntelHex {
 	if(data instanceof Buffer){
 		data = data.toString("ascii");
 	}
