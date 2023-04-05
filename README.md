@@ -1,12 +1,18 @@
-# intel-hex.js
+# intel-hex.ts
 
 A parser/writer for Intel HEX file format.
 > This fork updates the package to use ES6 modules & TypeScript definitions.
 
+## Installation
+With `yarn`:
+```bash
+$ yarn add git+https://github.com/realjoshuau/intel-hex.ts.git
+```
+
 ## Usage
 
 ```js
-require("intel_hex").parse(data);
+import { parse } from "intel-hex.ts";
 ```
 
 The `parse` function takes 2 arguments:
