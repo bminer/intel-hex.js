@@ -1,14 +1,14 @@
 {
-	"name": "intel-hex",
+	"name": "intel-hex.ts",
 	"version": "0.1.2",
-	"description": "A JavaScript parser/writer for Intel HEX file format.",
-	"main": "index.js",
+	"description": "A TypeScript parser/writer for Intel HEX file format.",
+	"main": "index.ts",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/bminer/intel-hex.js.git"
+		"url": "https://github.com/realjoshuau/intel-hex.ts.git"
 	},
 	"keywords": [
 		"intel",
