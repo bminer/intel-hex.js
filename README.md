@@ -1,6 +1,6 @@
 # intel-hex.ts
 
-A parser/writer for Intel HEX file format.
+A typescript-based parser/writer for the Intel Hex file format.
 > This fork updates the package to use ES6 modules & TypeScript definitions.
 
 ## Installation
@@ -12,7 +12,7 @@ $ yarn add git+https://github.com/realjoshuau/intel-hex.ts.git
 ## Usage
 
 ```js
-import { parse } from "intel-hex.ts";
+import { parse } from "intel-hex.ts"; // The module itself is named `intel-hex.ts`
 ```
 
 The `parse` function takes 2 arguments:
@@ -29,4 +29,4 @@ and returns an Object with the following properties:
 - `startLinearAddress` - the address provided by the last
   start linear address record; null, if not given
 
-Special thanks to: http://en.wikipedia.org/wiki/Intel_HEX
+Special thanks to: http://en.wikipedia.org/wiki/Intel_HEX and [bminer/intel-hex.js](https://github.com/bminer/intel-hex.js)
